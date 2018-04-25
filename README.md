@@ -1,0 +1,2 @@
+# SimilarityCompute
+相似度计算项目,基于hownet词库,基于simhash编辑距离,基于字向量tokenvector,基于词向量wordvector的句子相似度计算方法
