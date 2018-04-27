@@ -16,9 +16,9 @@ hownet将每个词的意义分解为多个义原，例如：{爸爸：human|人,
 这里涉及基于词相似的句子相似度度量，主要常用的jaccard编辑距离， 语义距离相似度。其中：给定两个句子s1,s2:  
 words1 = [token for token in s1]  
 words2 = [token for token in s2]  
-# jaccard距离:    
+# jaccard距离     
 SIM(s1,s2) = intersection(words1, words2)/union(words1, words2)
-# 语义距离：  
+# 语义距离    
 SIM(s1, s2) = 1/2 * (sum(max(sim(word1,word2) for word1 in words1 for word2 in words2))/len(words1) + sum(max(sim(word2,word1) for word2 in words2 for word1 in words1))/len(words2)  
 # 2、sentence-level的方法  
 sentence-level包括两种方法，核心思想是使用向量空间模型，将句子进行向量表征。具体包括两种方式：1）基于word-vector的组合 2）sentence-vector
@@ -32,7 +32,7 @@ sentence-level包括两种方法，核心思想是使用向量空间模型，将
 2）cilin.txt:同义词词林    
 3）token2vector.bin：中文字符向量    
 4）word2vector.bin：中文词语向量    
-# 2、实验方法：  
+# 2、实验方法    
 1）sim_cilin.py：基于同义词词林的相似度计算  
 2）sim_hownet.py:基于hownet的相似度计算  
 3）sim_simhash.py:基于指纹的相似度计算   
