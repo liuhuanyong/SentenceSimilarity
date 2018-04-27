@@ -3,19 +3,23 @@ self complement of Sentence Similarity compute based on cilin, hownet, simhash, 
 # 理论简介
 中文句子相似度计算，目前包括word-level和sentence-level两个level的计算方法。前者的思想是通过对句子进行分词，分别计算两个比较句中所含词汇的相似度。后者主要采用句子建模的方法。 
 # 1、word-level的方法
-word-level的方法包括两个核心问题，1）word之间的相似度计算问题 ，2)将句子中多个word相似度进行加权融合的问题。其中：  
-# 1）word之间相似度的计算问题，分成两种:    
-一种是形态（包括字符级的形态以及词语级的形态）上的相似，这个在英语中是比较可行的，英语中可以将词语进行词干化，而在中文中并不适用，例如‘爸爸’和‘父亲’实际上是同一个词，但是形态上的相似度是0，这显然是不行的。因此诞生了第二种方法，基于语义知识库的词语相似度计算:
-目前中文的语义知识库比较著名的有董振东先生研发的hownet以及哈工大研发的大词林，其中hownet将每个词的意义分解为多个义原，例如：{爸爸：human|人,family|家,male|男}，{父亲：human|人,family|家,male|男}，在cilin中，则对相似词语进行了编码，如 {Ah04A01= 父 父亲 爷 爹 大 翁 爸爸 老子 爹爹 老爹 阿爹 阿爸 椿 太公 大人 爸 生父 爹地 慈父}，可以看出‘爸爸’和‘父亲’都属于同一个语义编码。   
+word-level的方法包括两个核心问题，1）word之间的相似度计算问题 ，2)将句子中多个word相似度进行加权融合的问题。  
+# 1）word之间相似度的计算问题，分成两种  
+一种是形态（包括字符级的形态以及词语级的形态）上的相似，这个在英语中是比较可行的，英语中可以将词语进行词干化，而在中文中并不适用，例如‘爸爸’和‘父亲’实际上是同一个词，但是形态上的相似度是0，这显然是不行的。
+因此诞生了第二种方法，基于语义知识库的词语相似度计算。  
+目前中文的语义知识库比较著名的有董振东先生研发的hownet以及哈工大研发的大词林，其中：  
+hownet将每个词的意义分解为多个义原，例如：{爸爸：human|人,family|家,male|男}，{父亲：human|人,family|家,male|男}  
+在cilin中，则对相似词语进行了编码，如 {Ah04A01= 父 父亲 爷 爹 大 翁 爸爸 老子 爹爹 老爹 阿爹 阿爸 椿 太公 大人 爸 生父 爹地 慈父}  
+可以看出‘爸爸’和‘父亲’都属于同一个语义编码。     
 因此，借助外部语义知识库，可以在一定程度上解决中文的形态问题。但受限于知识库的词汇有限，难以大规模的适用。  
-# 2）基于word相似度的句子相似度加权问题。  
+# 2）基于word相似度的句子相似度加权问题    
 这里涉及基于词相似的句子相似度度量，主要常用的jaccard编辑距离， 语义距离相似度。其中：给定两个句子s1,s2:  
-words1 = [token for token in s1]      
+words1 = [token for token in s1]  
 words2 = [token for token in s2]  
 # jaccard距离:    
-SIM(s1,s2) = intersection(words, words2)/union(words1, words2)
+SIM(s1,s2) = intersection(words1, words2)/union(words1, words2)
 # 语义距离：  
-SIM(s1, s2) = 1/2 * (sum(max(sim(word1,word2) for word1 in words1 for word2 in words2))/len(words) +sum(max(sim(word2,word1) for word2 in words2 for word1 in words1))/len(words2)  
+SIM(s1, s2) = 1/2 * (sum(max(sim(word1,word2) for word1 in words1 for word2 in words2))/len(words1) + sum(max(sim(word2,word1) for word2 in words2 for word1 in words1))/len(words2)  
 # 2、sentence-level的方法  
 sentence-level包括两种方法，核心思想是使用向量空间模型，将句子进行向量表征。具体包括两种方式：1）基于word-vector的组合 2）sentence-vector
 # 1）基于word-vector的组合  
@@ -23,7 +27,7 @@ sentence-level包括两种方法，核心思想是使用向量空间模型，将
 # 2）基于sentence-vector的方法    
 目前关于sentence建模的方法包括skip-gram,cbow的doc2vector建模方法，基于autoencoder的建模方法，基于skip-thought的句子建模方法等。我们通常认为，基于sentence-vector的方法能够更好的保留句子的语义信息，能够在一定程度上弥补1）的词袋缺点。    
 # 实验  
-# 1、输入：     
+# 1、输入       
 1）hownet.dat:知网的词语义原表示    
 2）cilin.txt:同义词词林    
 3）token2vector.bin：中文字符向量    
@@ -80,5 +84,5 @@ simvsm 0.0
 1、从以上的结果来看，simvsm的方法貌似并不靠谱  
 2、基于语义知识库的方法效果要好一些  
 3、基于wordvector得到的方法与基于语义知识库的方法效果相当  
-4、将这几种方法进行融合，应该会有更好的效果。内部的计算规则还有待优化。  
+4、将这几种方法进行融合，应该会有更好的效果，内部的计算规则还有待优化 
 
