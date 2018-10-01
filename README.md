@@ -86,3 +86,5 @@ simvsm 0.0
 3、基于wordvector得到的方法与基于语义知识库的方法效果相当  
 4、将这几种方法进行融合，应该会有更好的效果，内部的计算规则还有待优化   
 
+If any question about the project or me ,see https://liuhuanyong.github.io/
+
